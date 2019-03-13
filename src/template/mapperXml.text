@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="!{Common.mapperPackageName}.!{table.entityName}Mapper">
+	<resultMap id="!{table.entityNameHumpCase}Mapper" type="!{table.entityName}">!{for column : table.columns}
+	    <result property="!{column.nameHumpCase}" column="!{column.name}"/>!{/for}
+    </resultMap>
+
+	<sql id="sql_columns">!{for column : table.columns separate=","}
+	    !{column.name}!{/for}
+	</sql>
+
+	<sql id="sql_condition">
+		<trim prefix="where" prefixOverrides="and|or">!{for column : table.columns}
+		    !{if column.type == 1}<if test="!{column.nameHumpCase} != null and !{column.nameHumpCase} != ''">and !{column.name} = #{!{column.nameHumpCase}}</if>!{/if}!{if column.type != 1}<if test="!{column.nameHumpCase} != null">and !{column.name} = #{!{column.nameHumpCase}}</if>!{/if}!{/for}
+		</trim>
+	</sql>
+
+	<sql id="sql_update_set">
+		<trim prefix="set" prefixOverrides=",">!{for column : table.columns}
+		    <if test="!{column.nameHumpCase} != null">, !{column.name} = #{!{column.nameHumpCase}}</if>!{/for}
+		</trim>
+	</sql>
+
+	<sql id="sql_insert_column">
+		<trim prefix="" prefixOverrides=",">!{for column : table.columns}
+		    <if test="!{column.nameHumpCase} != null">, !{column.name}</if>!{/for}
+		</trim>
+	</sql>
+
+	<sql id="sql_insert_value">
+		<trim prefix="" prefixOverrides=",">!{for column : table.columns}
+		    <if test="!{column.nameHumpCase} != null">, #{!{column.nameHumpCase}}</if>!{/for}
+		</trim>
+	</sql>
+
+	<select id="queryByPrimaryKey" resultMap="!{table.entityNameHumpCase}Mapper">
+		select <include refid="sql_columns" /> from !{table.name} where id = #{id}
+	</select>
+
+	<select id="queryByPrimaryKeys" resultMap="!{table.entityNameHumpCase}Mapper">
+		select <include refid="sql_columns" /> from !{table.name} where id in <foreach collection="list" index="index" item="id" open="(" close=")" separator=",">#{id}</foreach>
+	</select>
+
+	<select id="getList" resultMap="!{table.entityNameHumpCase}Mapper">
+		select <include refid="sql_columns" /> from !{table.name} <include refid="sql_condition" />
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into !{table.name} (<include refid="sql_insert_column" />) values (<include refid="sql_insert_value" />)
+	</insert>
+
+	<update id="update">
+		update !{table.name} <include refid="sql_update_set" /> where id = #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey">
+		delete from !{table.name} where id = #{id}
+	</delete>
+	
+	<delete id="deleteByPrimaryKeys">
+		delete from !{table.name} where id in <foreach collection="list" index="index" item="id" open="(" close=")" separator=",">#{id}</foreach>
+	</delete>
+
+</mapper>

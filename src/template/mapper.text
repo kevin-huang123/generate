@@ -1,0 +1,11 @@
+package !{Common.mapperPackageName};
+
+import !{Common.entityPackageName}.!{table.entityName};
+
+/**
+ * !{table.comment}
+ */
+public interface !{table.entityName}Mapper extends Mapper<!{table.entityName}> {
+
+
+}

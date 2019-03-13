@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>修改!{table.comment}</title>
+    <#include "../meta.html">
+</head>
+<body>
+<div class="col-xs-12">
+    <form class="form form-horizontal" id="form-!{table.entityNameHumpCase}-update">
+            <br/>
+            <input type="hidden" id="id" name="id" value="${!{table.entityNameHumpCase}.id}">
+            <div class="form-group">
+                <label class="control-label col-sm-2">!{column.comment}：</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="!{column.nameHumpCase}" name="!{column.nameHumpCase}" value="${!{table.entityNameHumpCase.!{column.nameHumpCase}}">
+                </div>
+            </div>!{/for}
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-4 text-center">
+                    <button type="submit" class="btn btn-primary">提交</button>&nbsp;&nbsp;
+                    <button type="button" class="btn btn-default"onclick="closeLayer()">取消</button>
+                </div>
+            </div>
+        </form>
+</div>
+<#include "../script.html">
+<script>
+    $(function() {
+        $("#form-!{table.entityNameHumpCase}-update").validate({
+            rules: {
+
+            },
+            messages: {
+
+            },
+            submitHandler: function(form) {
+                var ly_index = layerLoad();
+                $.ajax({
+                    url : "/update!{table.entityName}",
+                    dataType : "json",
+                    type : "post",
+                    data : jQuery("#form-!{table.entityNameHumpCase}-update").serialize(),
+                    success: function(data) {
+                        if (data.code == 2000){
+                            layer.close(ly_index);
+                            parent.layer.msg(data.message, { icon: 1, time: 1000 });
+                            parent.loadData();
+                            closeLayer();
+                        }else{
+                            layer.msg(data.message, { icon: 0, time: 1000 });
+                        }
+                    },
+                    error: function(XmlHttpRequest, textStatus, errorThrown) {
+                        layer.close(ly_index);
+                        var data = JSON.parse(jqXHR.responseText);
+                        layer.msg(data.message, { icon: 0, time: 1000 });
+                    }
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>

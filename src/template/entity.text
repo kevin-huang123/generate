@@ -1,0 +1,42 @@
+package !{Common.entityPackageName};
+
+import java.io.Serializable;
+
+public class !{table.entityName} extends BaseEntity implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+    !{for column : table.columns}
+    !{if column.type == 0}private Integer !{column.nameHumpCase};!{/if}!{if column.type == 1}private String !{column.nameHumpCase};!{/if}!{if column.type == 2}private BigDecimal !{column.nameHumpCase};!{/if}!{if column.type == 3}private Double !{column.nameHumpCase};!{/if}!{if column.type == 4}private Float !{column.nameHumpCase};!{/if}!{/for}
+    !{for column : table.columns}
+    !{if column.type == 0}public Integer get!{column.nameUpperCase}() {
+        return !{column.nameHumpCase};
+    }
+
+    public void set!{column.nameUpperCase}(Integer !{column.nameHumpCase}) {
+        this.!{column.nameHumpCase} = !{column.nameHumpCase};
+    }!{/if}!{if column.type == 1}public String get!{column.nameUpperCase}() {
+        return !{column.nameHumpCase};
+    }
+
+    public void set!{column.nameUpperCase}(String !{column.nameHumpCase}) {
+        this.!{column.nameHumpCase} = !{column.nameHumpCase};
+    }!{/if}!{if column.type == 2}public BigDecimal get!{column.nameUpperCase}() {
+        return !{column.nameHumpCase};
+    }
+
+    public void set!{column.nameUpperCase}(BigDecimal !{column.nameHumpCase}) {
+        this.!{column.nameHumpCase} = !{column.nameHumpCase};
+    }!{/if}!{if column.type == 3}public Double get!{column.nameUpperCase}() {
+        return !{column.nameHumpCase};
+    }
+
+    public void set!{column.nameUpperCase}(Double !{column.nameHumpCase}) {
+        this.!{column.nameHumpCase} = !{column.nameHumpCase};
+    }!{/if}!{if column.type == 4}public Float get!{column.nameUpperCase}() {
+        return !{column.nameHumpCase};
+    }
+
+    public void set!{column.nameUpperCase}(Float !{column.nameHumpCase}) {
+        this.!{column.nameHumpCase} = !{column.nameHumpCase};
+    }!{/if}!{/for}
+}

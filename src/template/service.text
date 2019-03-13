@@ -1,0 +1,11 @@
+package !{Common.servicePackageName};
+
+import !{Common.entityPackageName}.!{table.entityName};
+
+/**
+ * !{table.comment}
+ */
+public interface !{table.entityName}Service extends Service<!{table.entityName}> {
+
+
+}

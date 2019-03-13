@@ -1,0 +1,77 @@
+package !{Common.controllerPackageName};
+
+import !{Common.commonPackageName}.*;
+import !{Common.entityPackageName}.!{table.entityName};
+import com.daylyhome.version01.service.!{table.entityName}Service;
+import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+
+@Controller
+public class !{table.entityName}Controller {
+
+    @Autowired
+    private !{table.entityName}Service !{table.entityNameHumpCase}Service;
+
+    @RequestMapping("/to!{table.entityName}List")
+    public String to!{table.entityName}List(Map<String, Object> map){
+        return "!{table.entityNameHumpCase}/!{table.entityNameHumpCase}List";
+    }
+
+    @RequestMapping("/toAdd!{table.entityName}")
+    public String toAdd!{table.entityName}(Map<String, Object> map){
+        return "!{table.entityNameHumpCase}/add!{table.entityName}";
+    }
+
+    @RequestMapping("/toEdit!{table.entityName}/{id}")
+    public String toEdit!{table.entityName}(Map<String, Object> map, @PathVariable Integer id){
+        !{table.entityName} !{table.entityNameHumpCase} = !{table.entityNameHumpCase}Service.queryByPrimaryKey(id);
+        map.put("!{table.entityNameHumpCase}", !{table.entityNameHumpCase});
+        return "!{table.entityNameHumpCase}/edit!{table.entityName}";
+    }
+
+    @RequestMapping("/query!{table.entityName}List")
+    @ResponseBody
+    public Object query!{table.entityName}Lit(@ModelAttribute !{table.entityName} !{table.entityNameHumpCase}, @ModelAttribute Page page){
+        List<!{table.entityName}> !{table.entityNameHumpCase}s = !{table.entityNameHumpCase}Service.getList(!{table.entityNameHumpCase}, page);
+        return ResultUtil.successDate(new PageInfo<>(!{table.entityNameHumpCase}s));
+    }
+
+    @RequestMapping("/update!{table.entityName}")
+    @ResponseBody
+    public Object update!{table.entityName}(@ModelAttribute !{table.entityName} !{table.entityNameHumpCase}){
+        int flag = !{table.entityNameHumpCase}Service.update(!{table.entityNameHumpCase});
+        if (flag > 0){
+            return ResultUtil.success();
+        }else{
+            return ResultUtil.fail();
+        }
+    }
+
+    @RequestMapping("/del!{table.entityName}")
+    @ResponseBody
+    public Object del!{table.entityName}(@RequestParam Integer id){
+        int flag = !{table.entityNameHumpCase}Service.deleteByPrimaryKey(id);
+        if (flag > 0){
+            return ResultUtil.success();
+        }else{
+            return ResultUtil.fail();
+        }
+    }
+
+    @RequestMapping("/add!{table.entityName}")
+    @ResponseBody
+    public Object add!{table.entityName}(@ModelAttribute !{table.entityName} !{table.entityNameHumpCase}){
+        int flag = !{table.entityNameHumpCase}Service.insert(!{table.entityNameHumpCase});
+        if (flag > 0){
+            return ResultUtil.success();
+        }else{
+            return ResultUtil.fail();
+        }
+    }
+
+}

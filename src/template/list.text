@@ -1,0 +1,104 @@
+<div class="row">
+      <div class="col-xs-12">
+          <div class="box box-info">
+              <div class="form-horizontal">
+                  <div class="box-body">
+                      <div class="form-group">
+                          <div class="col-sm-1">
+                              <label class="control-label pull-right">模糊查询：</label>
+                          </div>
+                          <div class="col-sm-2">
+                              <input type="text" class="form-control" placeholder="输入名称" id="searchKey" name="searchKey">
+                          </div>
+                          <div class="col-sm-2">
+                              <button type="submit" class="btn btn-success pull-right" onclick="loadData()">搜索</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-xs-12">
+          <div class="box box-info">
+              <div class="box-header">
+                  <#--<button type="submit" class="btn btn-danger permission_del_all" onclick="delAll('$!webPath/sys/delExamination')">批量删除</button>-->
+                  <button type="submit" class="btn btn-info permission_add" onclick="showPage('添加!{table.comment}', '/toAdd!{table.entityName}', 60, 60)">添加!{table.comment}</button>
+              </div>
+              <div class="box-body permission_view">
+                  <table id="_data" class="table table-bordered table-hover">
+                      <thead>
+                      <tr>
+                          <#--<th width="25"><input type="checkbox" name="" value="" onclick="selectAll(this)"></th>-->!{for column : table.columns}
+                          <th class="text-center" width="100">!{column.comment}</th>!{/for}
+                          <th class="text-center" width="100">操作</th>
+                      </tr>
+                      </thead>
+                      <tbody id="tb_data" class="text-center">
+
+                      </tbody>
+                  </table>
+                  <div id="div_pagination" style="float: right;"></div>
+              </div>
+          </div>
+      </div>
+</div>
+<script>
+    // 查询条件
+    var v_cond = {
+        "pageNum": 1,
+        "pageSize": 10
+    };
+    $(function() {
+        loadData();
+    });
+
+    /**
+     * 加载数据
+     * @returns
+     */
+    function loadData() {
+        v_cond.searchKey = $('#searchKey').val();
+        var ly_index = layerLoad();
+        $.ajax({
+            url: "/query!{table.entityName}List",
+            type: "post",
+            dataType: "json",
+            data: v_cond,
+            success: function(data) {
+                var html = '<tr class="text-c"><td colspan="25" style="text-align: center;">未查询到数据</td></tr>';
+                var rstData = data.data;
+                var results = rstData.list;
+                if(results.length > 0) {
+                    html = '';
+                    for (var i = 0; i < results.length; i++) {
+                        var result = results[i];
+                        html += '';
+
+                        html += '<tr class="text-c">';
+//                        html += '<td style="text-align: center;"><input type="checkbox" value="' + result.id + '" name="cbx_id"></td>';!{for column : table.columns}
+                        html += '<td>' + result.!{column.nameHumpCase} + '</td>';!{/for}
+                        html += '<td class="td-manage">';
+                        if(result.status == 0) {
+                            html += '<button onClick="stopStart(this, ' + result.id + ', 1, \'/update!{table.entityName}\')" class="permission_start btn btn-success btn-xs">启用</button> ';
+                        } else {
+                            html += '<button onClick="stopStart(this, ' + result.id + ', 0, \'/update!{table.entityName}\')" class="permission_stop btn btn-warning btn-xs">停用</button> ';
+                        }
+                        html += '<button onclick="showPage(\'编辑!{table.comment}\',\'/toEdit!{table.entityName}/' + result.id + '\', 60, 60)" class="ml-5 permission_edit btn btn-primary btn-xs">编辑</button> ';
+                        html += '<button onclick="del(this, ' + result.id + ', \'/del!{table.entityName}\')" class="ml-5 permission_del btn btn-danger btn-xs">删除</button> ';
+                        html += '</td>';
+                        html += '</tr>';
+                    }
+                }
+                $('#tb_data').html('').html(html);
+                layer.close(ly_index);
+                initPager(rstData.total, v_cond);// 分页
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                layer.close(ly_index);
+                var data = JSON.parse(jqXHR.responseText);
+                layer.msg(data.message, { icon: 1, time: 1000 });
+            }
+        });
+    }
+
+</script>

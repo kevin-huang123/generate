@@ -1,0 +1,15 @@
+package !{Common.serviceImplPackageName};
+
+import !{Common.entityPackageName}.!{table.entityName};
+import !{Common.servicePackageName}.!{table.entityName}Service;
+
+import org.springframework.stereotype.Service;
+
+/**
+ * !{table.comment}
+ */
+@Service
+public class !{table.entityName}ServiceImpl extends AbstractService<!{table.entityName}> implements !{table.entityName}Service {
+
+
+}
