@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+    <dataSource>
+        <driverClassName>com.mysql.cj.jdbc.Driver</driverClassName>
+        <url>jdbc:mysql://127.0.0.1:3306/daylyhome?useUnicode=true&amp;characterEncoding=UTF-8&amp;tinyInt1isBit=false&amp;serverTimezone=Hongkong</url>
+        <userName>root</userName>
+        <password>Kevin123 </password>
+    </dataSource>
+
+    <staticCommons>
+        <entityPackageName>com.daylyhome.version01.entity</entityPackageName>
+        <controllerPackageName>com.daylyhome.version01.controller.manage</controllerPackageName>
+        <servicePackageName>com.daylyhome.version01.service</servicePackageName>
+        <serviceImplPackageName>com.daylyhome.version01.service.impl</serviceImplPackageName>
+        <mapperPackageName>com.daylyhome.version01.mapper</mapperPackageName>
+        <commonPackageName>com.daylyhome.version01.common</commonPackageName>
+    </staticCommons>
+
+    <templates>
+        <template name="entity.text" targetName="!{table.entityName}.java" targetFolder="D:\workSpaces\IdeaProjects\version01\src\main\java\com\daylyhome\version01\entity"/>
+        <template name="controller.text" targetName="!{table.entityName}Controller.java" targetFolder="D:\workSpaces\IdeaProjects\version01\src\main\java\com\daylyhome\version01\controller\manage"/>
+        <template name="service.text" targetName="!{table.entityName}Service.java" targetFolder="D:\workSpaces\IdeaProjects\version01\src\main\java\com\daylyhome\version01\service"/>
+        <template name="serviceImpl.text" targetName="!{table.entityName}ServiceImpl.java" targetFolder="D:\workSpaces\IdeaProjects\version01\src\main\java\com\daylyhome\version01\service\impl"/>
+        <template name="mapper.text" targetName="!{table.entityName}Mapper.java" targetFolder="D:\workSpaces\IdeaProjects\version01\src\main\java\com\daylyhome\version01\mapper"/>
+        <template name="mapperXml.text" targetName="!{table.entityName}Mapper.xml" targetFolder="D:\workSpaces\IdeaProjects\version01\src\main\resources\mapper"/>
+        <template name="list.text" targetName="!{table.entityNameHumpCase}List.ftl" targetFolder="D:\workSpaces\IdeaProjects\version01\src\main\resources\templates\!{table.entityNameHumpCase}"/>
+        <template name="add.text" targetName="add!{table.entityName}.ftl" targetFolder="D:\workSpaces\IdeaProjects\version01\src\main\resources\templates\!{table.entityNameHumpCase}"/>
+        <template name="edit.text" targetName="edit!{table.entityName}.ftl" targetFolder="D:\workSpaces\IdeaProjects\version01\src\main\resources\templates\!{table.entityNameHumpCase}"/>
+    </templates>
+
+    <tables>
+        <table name="a_home" entityName="Home" comment="家庭"/>
+        <!--<table name="a_member" entityName="Member" comment="家庭成员"/>-->
+    </tables>
+</configuration>
